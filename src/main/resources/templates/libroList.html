@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Libros</title>
+    <!-- Agregar la referencia a los archivos CSS de Bootstrap (localmente o a través de CDN) -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<style>
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 100%;
+            width: 200px;
+            background-color: #4586c7;
+            padding-top: 56px; /* Ajuste para compensar la altura del navbar */
+            z-index: 1;
+        }
+        .main-content {
+            margin-left: 250px; /* Ancho de la barra lateral */
+            padding: 20px;
+        }
+        .navbar-nav {
+            flex-direction: column;
+        }
+        .nav-item a {
+		    color: #ffffff;
+		    padding-left: 1rem!important;
+		    font-size: 1.2rem;
+		}
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <ul class="navbar-nav">
+        <li class="nav-item active">
+            <a class="nav-link" href="#">Inicio <span class="sr-only">(current)</span></a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="/libro/libros">Libros</a>
+        </li>
+    </ul>
+</div>
+<div class="main-content">
+	<div class="container mt-5">
+		<div class="row" style="margin-bottom: 1rem;">
+			<div class="col-md-8">				
+   				<h1 class="mt-5">Libros</h1>
+			</div>
+			<div class="col-md-4">
+				<div class="row" style="margin-top: 3rem;">
+					<div class="col-md-6">
+			            <form action="/libro/register" method="get">
+			                <button type="submit" class="btn btn-primary">Registrar Libro</button>
+			            </form>
+			        </div>
+			        <div class="col-md-6">
+			            <form action="/report/report" method="get">
+			                <button type="submit" class="btn btn-success">Generar Reporte</button>
+			            </form>
+			        </div>
+				</div>
+				
+			</div>
+		</div>
+	    <div class="row">
+	        <div class="col-md-1">
+	            <h5>Id</h5>
+	        </div>
+	        <div class="col-md-2">
+	            <h5>F.Registro</h5>
+	        </div>
+	        <div class="col-md-2">
+	            <h5>Nombre Libro</h5>
+	        </div>
+	        <div class="col-md-2">
+	            <h5>Autor</h5>
+	        </div>
+	        <div class="col-md-2">
+	            <h5>F.Publicación</h5>
+	        </div>
+	        <div class="col-md-1">
+	            <h5>Género</h5>
+	        </div>
+	        <div class="col-md-2">
+	            <h5>Acciones</h5>
+	        </div>
+	    </div>
+	    <div class="list-group">
+	        <!-- Iterar sobre la lista de películas y mostrar cada una -->
+	        <div th:each="libro : ${libros}" class="list-group-item">
+	            <div class="row">
+	                <div class="col-md-1" th:text="${libro.idlibro}"></div>
+	                <div class="col-md-2" th:text="${#dates.format(libro.fecharegistro, 'dd/MM/yyyy')}"></div>
+	                <div class="col-md-2" th:text="${libro.nombre}"></div>
+	                <div class="col-md-2" th:text="${libro.autor}"></div>
+	                <div class="col-md-2" th:text="${#dates.format(libro.fechapublicacion, 'dd/MM/yyyy')}"></div>
+	                <div class="col-md-1" th:text="${libro.genero.nombre}"></div>
+	                <div class="col-md-1">
+	                    <a th:href="@{'/libro/edit/' + ${libro.idlibro} }" class="btn btn-secondary">Editar</a>
+	                </div>
+	                <div class="col-md-1">
+	                    <a th:href="@{'/libro/delete/' + ${libro.idlibro} }" onclick="return confirm('¿Está seguro de eliminar?');" class="btn btn-danger">Eliminar</a>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
+</div>
+	<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
